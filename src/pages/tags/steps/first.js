@@ -2,13 +2,6 @@ import React, {useEffect} from 'react'
 import {Form, Input} from 'antd'
 const {TextArea} = Input
 import {connect} from 'dva'
-const namespace = 'process'
-const mapStateToProps = (state) => {
-	const store = state[namespace]
-	return {
-	  ...store 
-	}
-}
 function First(props) {
   const {dispatch} = props
   const formItemLayout = {
@@ -19,7 +12,7 @@ function First(props) {
       xs: {span: 21}
     }
   }
-  const {getFieldDecorator} = props.form
+  const {getFieldDecorator, validateFields, setFieldsValue} = props.form
   useEffect(() => {
     dispatch({
       type: 'process/updateState',
@@ -28,9 +21,15 @@ function First(props) {
       },
     });
   }, [])
+  useEffect(() => {
+    setFieldsValue({
+      title: props.params.title,
+      content: props.params.content
+    })
+  }, [props.params])
   const submit = () => {
     return new Promise((resolve) => {
-      props.form.validateFields((err, values) => {
+      validateFields((err, values) => {
         if (!err) {
           resolve(values)
         }
@@ -67,4 +66,6 @@ function First(props) {
     </Form>
   )
 }
-export default connect(mapStateToProps, null)(Form.create('first')(First))
+export default connect((state) => ({
+  ...state.process
+}), null)(Form.create('first')(First))

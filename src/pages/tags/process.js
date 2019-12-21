@@ -7,35 +7,39 @@ import First from './steps/first'
 import Second from './steps/second'
 import Third from './steps/third'
 const {Step} = Steps;
-
-const namespace = 'process'
-const mapStateToProps = (state) => {
-  const store = state[namespace]
-  return {
-    ...store
-  }
-}
 function Process(props) {
   const [current, setCurrent] = useState(0)
+  const [params, setParams] = useState({
+    first: {},
+    second: {},
+    third: {}
+  })
   const stepsMap = [
     {
       title: '填写标签审核信息',
-      content: <First></First>,
+      content: <First params={params.first} />
     },
     {
       title: '上传文件',
-      content: <Second></Second>
+      content: <Second />
     },
     {
       title: '提交',
-      content: <Third></Third>,
+      content: <Third />
     },
   ];
   const next = () => {
-    props.submit().then((values) => {
-      console.log(values, 'values37')
+    if (current === 0) {
+      props.submit().then((values) => {
+        setParams({
+          ...params,
+          first: values
+        })
+        setCurrent(current + 1)
+      })
+    } else {
       setCurrent(current + 1)
-    })
+    }
   }
   return (
     <div>
@@ -60,4 +64,10 @@ function Process(props) {
     </div>
   )
 }
-export default connect(mapStateToProps, null)(Process)
+export default connect(
+  (state) => ({
+    ...state.process
+  }),
+  {
+
+})(Process)
