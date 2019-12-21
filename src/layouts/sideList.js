@@ -4,7 +4,7 @@ export const sideList = [
     path: '/tags',
     children: [
       {
-        name: '发起流程',
+        name: '发起申请',
         path: '/tags/process',
       },
       {
