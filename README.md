@@ -1,10 +1,10 @@
-> a markdown document editing system base on [react-markdown-editor-lite](https://github.com/HarryChen0506/react-markdown-editor-lite)
-
-* online: [online-demo](http://140.143.90.177:9000) user: zlx/123
-
-![eg](./image/eg.jpeg)
-
-* Module diagram:
-![eg](./image/NEWHOPE.png)
+<!--
+ * @Author: zlx
+ * @Date: 2019-12-21 09:52:55
+ * @LastEditors: zlx
+ * @LastEditTime: 2019-12-21 11:40:32
+ * @Description: 
+ -->
+> newhope
 
 
