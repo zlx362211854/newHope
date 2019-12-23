@@ -57,7 +57,7 @@ function Preview(props) {
           base64: myImage
         }
       }).then(req => {
-        console.log(req, 'req')
+        props.handleChangeFileList(req, temporaryFileId)
       });
       props.handleOk()
     }

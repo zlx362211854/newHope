@@ -37,7 +37,6 @@ function Second(props) {
       }
     },
     onPreview(file) {
-      console.log(file, 'preview')
       if (file && file.response) {
         props.openPreview({
           url: file.response.data.file.name,
@@ -47,12 +46,28 @@ function Second(props) {
     },
     fileList: fileList
   }
+  const handleChangeFileList = (file, prevId) => {
+    const newFileList = fileList.map(i => {
+      if (i.response.data.file._id === prevId) {
+        const obj = i
+        obj.response.data.file = {
+          ...obj.response.data.file,
+          _id: file.data._id,
+          name: file.data.name,
+          create_time: file.data.create_time,
+        }
+        return obj
+      }
+      return i
+    })
+    setFileList(newFileList)
+  }
   const handlePreviewOk = () => {
     props.closePreview()
   }
   return (
     <div>
-      <Preview handleOk={handlePreviewOk}></Preview>
+      <Preview handleOk={handlePreviewOk} handleChangeFileList={handleChangeFileList}></Preview>
       <Dragger {...options}>
         <p className="ant-upload-drag-icon">
           <Icon type="inbox" />
