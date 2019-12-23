@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Upload, Icon, message} from 'antd'
 import {connect} from 'dva'
 import Preview from './preview'
 const {Dragger} = Upload
 function Second(props) {
+  const [fileList, setFileList] = useState([])
   const options = {
     name: 'file',
     showUploadList: {
@@ -12,11 +13,22 @@ function Second(props) {
       showPreviewIcon: true
     },
     multiple: true,
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    action: '/api/file/temporaryFileUpload',
+    beforeUpload(file, fileList) {
+      return true
+    },
     onChange(info) {
       const {status} = info.file;
+      let fileList = [...info.fileList];
+      fileList = fileList.map(file => {
+        if (file.response) {
+          // Component will show file.url as link
+          file.url = file.response.url;
+        }
+        return file;
+      });
+      setFileList(fileList)
       if (status !== 'uploading') {
-        console.log(info.file, info.fileList);
       }
       if (status === 'done') {
         message.success(`${info.file.name} 文件上传成功.`);
@@ -26,10 +38,14 @@ function Second(props) {
     },
     onPreview(file) {
       console.log(file, 'preview')
-      if (file && file.response && file.response.url) {
-        props.openPreview(file.response.url)
+      if (file && file.response) {
+        props.openPreview({
+          url: file.response.data.file.name,
+          id: file.response.data.file._id
+        })
       }
-    }
+    },
+    fileList: fileList
   }
   const handlePreviewOk = () => {
     props.closePreview()

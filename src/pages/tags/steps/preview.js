@@ -4,11 +4,13 @@ import {connect} from 'dva'
 import 'tui-image-editor/dist/tui-image-editor.css'
 import ImageEditor from '@toast-ui/react-image-editor'
 import locale from './preview.locale'
+import {file} from 'request';
 function Preview(props) {
   const {dispatch} = props
   const [visible, trigger] = useState(false)
   const instance = useRef(null)
   const [url, setUrl] = useState('')
+  const [temporaryFileId, setTemporaryFileId] = useState('')
   useEffect(() => {
     dispatch({
       type: 'process/updateState',
@@ -17,10 +19,11 @@ function Preview(props) {
         closePreview: close
       }
     })
-  }, [])
-  const open = (url) => {
+  }, [url])
+  const open = ({url, id}) => {
     if (url) {
       setUrl(url)
+      setTemporaryFileId(id)
     }
     trigger(true)
   }
@@ -48,6 +51,14 @@ function Preview(props) {
     if (instance) {
       const myImage = instance.current.imageEditorInst.toDataURL();
       console.log(myImage, 'myImage')
+      file.uploadBase64({
+        params: {
+          id: temporaryFileId,
+          base64: myImage
+        }
+      }).then(req => {
+        console.log(req, 'req')
+      });
       props.handleOk()
     }
   }
@@ -58,37 +69,36 @@ function Preview(props) {
       width={1000}
       onOk={handleOk}
       onCancel={() => {trigger(false)}}
+      destroyOnClose={true}
     >
-      <div>
-        <ImageEditor
-          ref={instance}
-          includeUI={{
-            loadImage: {
-              path: '/api/1576907361721-dn6waqbc.png',
-              name: 'SampleImage'
-            },
-            theme: theme,
-            menu: ['crop', 'rotate', 'draw', 'text',
-              // 'filter'
-            ],
-            // initMenu: 'filter',
-            uiSize: {
-              width: '950px',
-              height: '600px'
-            },
-            menuBarPosition: 'right',
-            locale: locale
-          }}
-          cssMaxHeight={500}
-          cssMaxWidth={700}
-          selectionStyle={{
-            cornerSize: 20,
-            rotatingPointOffset: 70
-          }}
-          usageStatistics={true}
-          
-        />
-      </div>
+      <ImageEditor
+        ref={instance}
+        includeUI={{
+          loadImage: {
+            path: '/api/' + url,
+            name: 'SampleImage'
+          },
+          theme: theme,
+          menu: ['crop', 'rotate', 'draw', 'text',
+            // 'filter'
+          ],
+          // initMenu: 'filter',
+          uiSize: {
+            width: '950px',
+            height: '600px'
+          },
+          menuBarPosition: 'right',
+          locale: locale
+        }}
+        cssMaxHeight={500}
+        cssMaxWidth={700}
+        selectionStyle={{
+          cornerSize: 20,
+          rotatingPointOffset: 70
+        }}
+        usageStatistics={true}
+
+      />
     </Modal>
   )
 }
