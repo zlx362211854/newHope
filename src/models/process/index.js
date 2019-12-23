@@ -7,13 +7,6 @@ export default {
     }
   },
   reducers: {
-    saveDetail(state, action) {
-      return {
-        ...state,
-        list: action.payload.list,
-        total: action.payload.total
-      };
-    },
     updateState(state, {payload}) {
       return {
         ...state,

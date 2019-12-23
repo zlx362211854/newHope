@@ -6,6 +6,7 @@ import styles from './process.less'
 import First from './steps/first'
 import Second from './steps/second'
 import Third from './steps/third'
+require('../index.css')
 const {Step} = Steps;
 function Process(props) {
   const [current, setCurrent] = useState(0)

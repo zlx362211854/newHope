@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-require('static/css/editor.css');
+import React, {Component} from 'react';
 export default class Main extends Component {
   render() {
     return (

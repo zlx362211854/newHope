@@ -4,10 +4,10 @@
     "start": "PORT=9000 umi dev",
     "build": "umi build",
     "test": "umi test",
-    "lint": "eslint --ext .js src mock tests",
-    "precommit": "lint-staged"
+    "lint": "eslint --ext .js src mock tests"
   },
   "dependencies": {
+    "@toast-ui/react-image-editor": "^1.0.1",
     "antd": "^3.26.3",
     "axios": "^0.18.0",
     "babel-preset-env": "^1.7.0",
