@@ -164,4 +164,19 @@ body {
   left: 1.1em;
 }
 
+.font_color_title {
+  color: rgba(0,0,0,.65)
+}
+.font_color_content{
+  color: rgba(0,0,0,.45)
+}
+.pointer_cursor {
+  cursor: pointer;
+}
+.block {
+  display: block;
+}
+.inline_block {
+  display: inline-block;
+}
 /*# sourceMappingURL=style.css.map */

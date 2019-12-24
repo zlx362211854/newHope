@@ -66,7 +66,6 @@ function Process(props) {
     }
   }
   const handleProcessSubmit = () => {
-    console.log(params, 'params//')
     const {first: {title, content}, second: {fileList = []}} = params;
     process.create({
       params: {
