@@ -1,37 +1,43 @@
-import React from 'react'
-import { Table, Divider, Tag } from 'antd';
-
+import React, {useEffect, useState} from 'react'
+import {Table, Divider, Tag} from 'antd';
+import {process} from 'request'
 const columns = [
   {
     title: '发起人',
     dataIndex: 'name',
     key: 'name',
-    render: text => <a>{text}</a>,
+    render(text, record) {
+      return record.creator.name
+    },
   },
   {
-    title: '公司',
-    dataIndex: 'address',
-    key: 'address',
+    title: '标题',
+    dataIndex: 'title',
+    key: 'title',
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: tags => (
-      <span>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </span>
-    ),
+    title: '内容',
+    dataIndex: 'content',
+    key: 'content',
+    render(text) {
+      return (
+        <pre>
+          {text}
+        </pre>
+      )
+    }
+  },
+  {
+    title: '文件',
+    dataIndex: 'files',
+    key: 'files',
+    render(text, record) {
+      return (
+        <pre>
+          {record.files.map(i => i.displayName + '\r\n')}
+        </pre>
+      )
+    }
   },
   {
     title: '操作',
@@ -45,34 +51,18 @@ const columns = [
     ),
   },
 ];
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
 export default function List() {
+  const [data, setData] = useState([])
+  useEffect(() => {
+    process.getOwnList({}).then((resp) => {
+      if (resp.code === 1000) {
+        setData(resp.data)
+      }
+    })
+  }, [])
   return (
     <div>
-      <h1>待审核列表</h1>
+      <h1>{"我的申请列表"}</h1>
       <Table columns={columns} dataSource={data} />
     </div>
   )

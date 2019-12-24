@@ -8,8 +8,12 @@ export const sideList = [
         path: '/tags/process',
       },
       {
-        name: '待审列表',
+        name: '申请列表',
         path: '/tags/list',
+      },
+      {
+        name: '待审列表',
+        path: '/tags/auditList',
       }
     ],
   },
@@ -32,5 +36,5 @@ export const sideList = [
         path: '/setting/user',
       },
     ],
-  },
+  }
 ];

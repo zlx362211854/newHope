@@ -60,7 +60,7 @@ function Second(props) {
       }
     },
     onPreview(file) {
-      if (file && file.response) {
+      if (file && file.response && file.type.split('/')[0] === 'image') {
         props.openPreview({
           url: file.response.data.file.name,
           id: file.response.data.file._id

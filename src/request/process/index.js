@@ -6,7 +6,14 @@ const create = ({ params }) => {
     data: params
   });
 };
-
+const getOwnList = ({ params }) => {
+  return ajax({
+    url: "/api/process/list",
+    method: "post",
+    params
+  });
+};
 export default {
-  create
+  create,
+  getOwnList
 };

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Steps, Button} from 'antd'
+import {Steps, Button, message} from 'antd'
 import {connect} from 'dva'
 
 import styles from './process.less'
@@ -66,12 +66,13 @@ function Process(props) {
     }
   }
   const handleProcessSubmit = () => {
+    console.log(params, 'params//')
     const {first: {title, content}, second: {fileList = []}} = params;
     process.create({
       params: {
         title: title,
         content: content,
-        files: fileList.map(i => i.response.data.file._id)
+        files: fileList.map(i => ({file: i.response.data.file._id, displayName: i.name}))
       }
     }).then(data => {
       if (data.code === 1000) {
