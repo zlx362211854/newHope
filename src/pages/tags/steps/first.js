@@ -35,7 +35,6 @@ function First(props) {
         }
       })
     })
-    
   }
   return (
     <Form {...formItemLayout}>
@@ -44,7 +43,7 @@ function First(props) {
           rules: [
             {
               required: true,
-              message: "请输入标题"
+              message: "请填写一个标题"
             },
             {
               max: 32,
@@ -58,7 +57,7 @@ function First(props) {
           rules: [
             {
               required: true,
-              message: "请输入内容"
+              message: "请填写内容"
             }
           ]
         })(<TextArea placeholder={"填写一些说明..."} rows={4}/>)}

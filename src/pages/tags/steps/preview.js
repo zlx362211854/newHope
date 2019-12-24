@@ -50,7 +50,6 @@ function Preview(props) {
   const handleOk = () => {
     if (instance) {
       const myImage = instance.current.imageEditorInst.toDataURL();
-      console.log(myImage, 'myImage')
       file.uploadBase64({
         params: {
           id: temporaryFileId,

@@ -1,10 +1,28 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Upload, Icon, message} from 'antd'
 import {connect} from 'dva'
 import Preview from './preview'
+import router from 'umi/router';
 const {Dragger} = Upload
 function Second(props) {
+  const {dispatch} = props;
   const [fileList, setFileList] = useState([])
+  useEffect(() => {
+    saveFileList
+    dispatch({
+      type: 'process/updateState',
+      payload: {
+        saveFileList
+      },
+    });
+  }, [fileList])
+  useEffect(() => {
+    const {fileList} = props.params
+    setFileList(fileList)
+  }, [props.params])
+  const saveFileList = () => {
+    return fileList
+  }
   const options = {
     name: 'file',
     showUploadList: {
@@ -22,7 +40,6 @@ function Second(props) {
       let fileList = [...info.fileList];
       fileList = fileList.map(file => {
         if (file.response) {
-          // Component will show file.url as link
           file.url = file.response.url;
         }
         return file;
@@ -31,7 +48,13 @@ function Second(props) {
       if (status !== 'uploading') {
       }
       if (status === 'done') {
-        message.success(`${info.file.name} 文件上传成功.`);
+        if (info.file.response.code === 3000) {
+          if (info.file.response.redirect) {
+            router.push(info.file.response.redirect)
+          }
+        } else if (info.file.response.code === 1000) {
+          message.success(`${info.file.name} 文件上传成功.`);
+        }
       } else if (status === 'error') {
         message.error(`${info.file.name} 文件上传失败.`);
       }
