@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
-import {Modal, Spin} from 'antd'
+import {Modal} from 'antd'
 import {connect} from 'dva'
 import 'tui-image-editor/dist/tui-image-editor.css'
 import ImageEditor from '@toast-ui/react-image-editor'
@@ -8,7 +8,6 @@ import {file} from 'request';
 function Preview(props) {
   const {dispatch} = props
   const [visible, trigger] = useState(false)
-  const [spinning, setSpinning] = useState(false)
   const instance = useRef(null)
   const [url, setUrl] = useState('')
   const [temporaryFileId, setTemporaryFileId] = useState('')
@@ -52,7 +51,9 @@ function Preview(props) {
   };
   const handleOk = () => {
     if (instance) {
-      const myImage = instance.current.imageEditorInst.toDataURL();
+      const myImage = instance.current.imageEditorInst.toDataURL(
+        // {quality: 0.6}
+      )
       file.uploadBase64({
         params: {
           id: temporaryFileId,
@@ -61,7 +62,7 @@ function Preview(props) {
         }
       }).then(req => {
         props.handleChangeFileList(req, temporaryFileId)
-      });
+      })
       props.handleOk()
     }
   }
@@ -95,10 +96,10 @@ function Preview(props) {
         }}
         cssMaxHeight={500}
         cssMaxWidth={700}
-        selectionStyle={{
-          cornerSize: 20,
-          rotatingPointOffset: 70
-        }}
+        // selectionStyle={{
+        //   cornerSize: 20,
+        //   rotatingPointOffset: 70
+        // }}
         usageStatistics={true}
       />
     </Modal>

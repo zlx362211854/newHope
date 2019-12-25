@@ -82,7 +82,7 @@ function Process(props) {
   }
   return (
     <div>
-      <h3>{"发起标签审核申请"}</h3>
+      <h1>{"发起标签审核申请"}</h1>
       <Steps current={current}>
         {stepsMap.map(item => (
           <Step key={item.title} title={item.title} />

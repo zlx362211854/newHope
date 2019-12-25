@@ -28,6 +28,20 @@ export const sideList = [
     ],
   },
   {
+    name: '组织管理',
+    path: '/orgs',
+    children: [
+      {
+        name: '新建',
+        path: '/orgs/create',
+      },
+      {
+        name: '所有组织',
+        path: '/orgs/all',
+      },
+    ],
+  },
+  {
     name: '设置',
     path: '/setting',
     children: [

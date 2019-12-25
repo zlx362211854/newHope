@@ -9,7 +9,7 @@ const create = ({ params }) => {
 const getOwnList = ({ params }) => {
   return ajax({
     url: "/api/process/list",
-    method: "post",
+    method: "get",
     params
   });
 };
