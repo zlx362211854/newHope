@@ -13,6 +13,13 @@ const getOrgsList = ({ params }) => {
     params
   });
 };
+const searchOrg = ({ params }) => {
+  return ajax({
+    url: "/api/orgs/search",
+    method: "get",
+    params
+  });
+};
 const removeOrg = ({ params }) => {
   return ajax({
     url: "/api/orgs/remove",
@@ -23,5 +30,6 @@ const removeOrg = ({ params }) => {
 export default {
   create,
   getOrgsList,
+  searchOrg,
   removeOrg
 };

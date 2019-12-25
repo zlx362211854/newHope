@@ -1,13 +1,15 @@
 import Link from 'umi/link';
 import router from 'umi/router';
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import style from './signup.less';
-import {Form, Icon, Input, Button, message, Avatar} from 'antd';
+import {Form, Icon, Input, Button, message, Avatar, Spin, Select} from 'antd';
 import kit from 'utils/kit.js'
-import { user } from 'request';
+import {user, orgs} from 'request';
 const {encryptDES} = kit;
-console.log(kit, 'kit')
 class Signup extends Component {
+  state = {
+
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -38,8 +40,32 @@ class Signup extends Component {
       callback();
     }
   }
+  fetchOrg = value => {
+    this.setState({ orgsData: [], fetching: true });
+    orgs
+      .searchOrg({
+        params: {
+          name: value,
+        },
+      })
+      .then(res => {
+        const { code, data } = res;
+        if (code === 1000) {
+          this.setState({
+            orgsData: data
+          });
+        }
+      });
+  };
+  handleChange = value => {
+    this.setState({
+      orgsData: [],
+      fetching: false,
+    });
+  };
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {getFieldDecorator} = this.props.form;
+    const {orgsData = [], fetching} = this.state;
     return (
       <div>
         <div className={style.loginPanel}>
@@ -49,37 +75,59 @@ class Signup extends Component {
           <Form onSubmit={this.handleSubmit} className={style.form + ' login-form'}>
             <Form.Item>
               {getFieldDecorator('userName', {
-                rules: [{ required: true, message: 'Please input your username!' }],
+                rules: [{required: true, message: '请输入用户名!'}],
               })(
                 <Input
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="用户名"
+                  prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}} />}
+                  placeholder="输入用户名"
                 />
               )}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Please input your Password!' }],
+                rules: [{required: true, message: '请输入密码!'}],
               })(
                 <Input
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}} />}
                   type="password"
-                  placeholder="密码"
+                  placeholder="输入密码"
                 />
               )}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('passwordConfirm', {
                 rules: [
-                  {required: true, message: 'Please confirm your password!'},
+                  {required: true, message: '请再次输入密码以确认!'},
                   {validator: this.compareToFirstPassword}
                 ]
               })(
                 <Input
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}} />}
                   type="password"
                   placeholder="确认密码"
                 />
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('organization', {
+                rules: [
+                  {required: true, message: '请选择所属公司或组织'},
+                ]
+              })(
+                <Select
+                  labelInValue
+                  showSearch
+                  placeholder="搜索以添加你所属的公司或组织"
+                  notFoundContent={fetching ? <Spin size="small" /> : null}
+                  filterOption={false}
+                  onSearch={this.fetchOrg}
+                  onChange={this.handleChange}
+                  style={{width: '100%'}}
+                >
+                  {orgsData.map(d => (
+                    <Option key={d._id}>{d.name}</Option>
+                  ))}
+                </Select>
               )}
             </Form.Item>
             <Form.Item>
