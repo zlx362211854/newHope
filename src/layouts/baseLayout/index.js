@@ -4,6 +4,7 @@ import SideBar from 'components/SideBar';
 import style from './baseLayout.less';
 import Bread from 'components/Bread';
 import Quit from 'components/Quit';
+import Logo from 'components/Logo';
 import { connect } from 'dva';
 const { Header, Content } = Layout;
 class BseicLayout extends Component {
@@ -24,8 +25,8 @@ class BseicLayout extends Component {
     return (
       <Layout className={style.baseLayout}>
         <Header className="header" style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div className="logo" style={{ width: '200px' }}>
-            <Avatar size={50} icon="user" src={imageUrl && '/api/' + imageUrl} />
+          <div className="logo" style={{width: '200px'}}>
+            <Logo size={50} src={imageUrl && '/api/' + imageUrl} />
           </div>
           <div className="logout" style={{ textAlign: 'center' }}>
             <Menu

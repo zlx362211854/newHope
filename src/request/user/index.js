@@ -27,9 +27,33 @@ const update = ({ params }) => {
     data: params
   });
 };
+const getUsers = ({ params }) => {
+  return ajax({
+    url: "/api/signup/list",
+    method: "get",
+    params
+  });
+};
+const passUser = ({ params }) => {
+  return ajax({
+    url: "/api/signup/pass",
+    method: "post",
+    data: params
+  });
+};
+const remove = ({ params }) => {
+  return ajax({
+    url: "/api/signup/remove",
+    method: "post",
+    data: params
+  });
+};
 export default {
   loginIn,
   signup,
   search,
-  update
+  update,
+  getUsers,
+  passUser,
+  remove
 };

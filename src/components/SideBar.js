@@ -1,15 +1,18 @@
+import React, {useMemo} from 'react'
 import {Layout, Menu, Icon} from 'antd';
 import Link from 'umi/link';
 const {SubMenu} = Menu;
 const {Sider} = Layout;
-export default props => {
-  const {sideList} = props;
-  const loop = list => {
-    return list.map((i, index) => {
+function SideBar(props) {
+  const path = props.location.pathname
+  const defaultSelectedKeys = [path]
+  const defaultOpenKeys = ['/' + path.split('/')[1]]
+  const loop = (list = []) => {
+    return list.map(i => {
       if (i.show) {
         return (
           <SubMenu
-            key={i.name}
+            key={i.key}
             title={
               <span>
                 <Icon type={i.icon || 'user'} />
@@ -20,7 +23,7 @@ export default props => {
             {i.children.map((l, idx) => {
               if (l.show) {
                 return (
-                  <Menu.Item key={i.name + idx}>
+                  <Menu.Item key={l.key}>
                     <Link to={l.path}>{l.name}</Link>
                   </Menu.Item>
                 )
@@ -30,17 +33,22 @@ export default props => {
         )
       }
     });
-  };
+  }
+  const renderMenu = useMemo(() => {
+    return loop(props.sideList)
+  }, [props.sideList])
   return (
     <Sider width={200} style={{background: '#fff'}}>
       <Menu
         mode="inline"
-        defaultOpenKeys={[sideList[0].name]}
-        defaultSelectedKeys={['0']}
+        defaultOpenKeys={defaultOpenKeys}
+        defaultSelectedKeys={defaultSelectedKeys}
         style={{height: '100%', borderRight: 0}}
       >
-        {loop(sideList)}
+        {renderMenu}
       </Menu>
     </Sider>
-  );
-};
+  )
+}
+export default SideBar
+

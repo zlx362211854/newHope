@@ -179,4 +179,10 @@ body {
 .inline_block {
   display: inline-block;
 }
+.font_color_red {
+  color: red;
+}
+.font_color_link {
+  color: #1890ff;
+}
 /*# sourceMappingURL=style.css.map */

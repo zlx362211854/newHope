@@ -5,35 +5,41 @@ export const sideList = (role) => {
     {
       name: '标签',
       path: '/tags',
+      key: '/tags',
       icon: 'tags',
       show: true,
       children: [
         {
           name: '发起申请',
           path: '/tags/process',
+          key: '/tags/process',
           show: true,
         },
         {
-          name: '申请列表',
+          name: '我发起的',
           path: '/tags/list',
+          key: '/tags/list',
           show: true,
         },
         {
-          name: '待审列表',
+          name: '所有待审',
           path: '/tags/auditList',
-          show: isAdmin,
+          key: '/tags/auditList',
+          show: isAdmin || isSuperAdmin,
         }
       ],
     },
     {
       name: '文件管理',
-      path: '/fileManager',
+      path: '/file',
+      key: '/file',
       icon: 'file',
       show: true,
       children: [
         {
           name: '所有',
-          path: '/fileManager/all',
+          path: '/file/all',
+          key: '/file/all',
           show: true,
         },
       ],
@@ -41,17 +47,35 @@ export const sideList = (role) => {
     {
       name: '组织管理',
       path: '/orgs',
+      key: '/orgs',
       icon: 'solution',
       show: isSuperAdmin,
       children: [
         {
           name: '新建',
           path: '/orgs/create',
+          key: '/orgs/create',
           show: isSuperAdmin,
         },
         {
           name: '所有组织',
           path: '/orgs/all',
+          key: '/orgs/all',
+          show: isSuperAdmin,
+        },
+      ],
+    },
+    {
+      name: '用户管理',
+      path: '/users',
+      key: '/users',
+      icon: 'user',
+      show: isSuperAdmin,
+      children: [
+        {
+          name: '所有用户',
+          path: '/users/all',
+          key: '/users/all',
           show: isSuperAdmin,
         },
       ],
@@ -59,12 +83,14 @@ export const sideList = (role) => {
     {
       name: '设置',
       path: '/setting',
+      key: '/setting',
       icon: 'setting',
       show: true,
       children: [
         {
           name: '用户',
           path: '/setting/user',
+          key: '/setting/user',
           show: true,
         },
       ],

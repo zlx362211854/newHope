@@ -19,10 +19,12 @@ class Signup extends Component {
       const {userName, password} = values;
       const key = 'NEWHOPE';
       const pass = encryptDES(password, key);
+      const org = values.org.key;
       user.signup({
         params: {
           name: userName,
-          pass
+          pass,
+          org
         }
       }).then(req => {
         if (req.code === 1000) {
@@ -109,7 +111,7 @@ class Signup extends Component {
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('organization', {
+              {getFieldDecorator('org', {
                 rules: [
                   {required: true, message: '请选择所属公司或组织'},
                 ]
