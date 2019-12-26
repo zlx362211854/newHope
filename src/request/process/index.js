@@ -13,7 +13,23 @@ const getOwnList = ({ params }) => {
     params
   });
 };
+const getAuditList = ({ params }) => {
+  return ajax({
+    url: "/api/process/audit",
+    method: "get",
+    params
+  });
+};
+const getAuditDetail = ({ params }) => {
+  return ajax({
+    url: "/api/process/auditDetail",
+    method: "get",
+    params
+  });
+};
 export default {
   create,
-  getOwnList
+  getOwnList,
+  getAuditList,
+  getAuditDetail
 };

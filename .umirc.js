@@ -11,11 +11,17 @@ export default {
     },
     {
       path: '/login',
-      component: './login/index',
+      component: '../layouts/loginLayout/index',
+      routes: [
+        {path: '/login', component: './login/index'},
+      ]
     },
     {
       path: '/signup',
-      component: './signup/index',
+      component: '../layouts/loginLayout/index',
+      routes: [
+        {path: '/signup', component: './signup/index'},
+      ]
     },
     {
       path: '/tags',
@@ -24,6 +30,7 @@ export default {
         {path: '/tags/process', component: './tags/process'},
         {path: '/tags/list', component: './tags/list'},
         {path: '/tags/auditList', component: './tags/auditList'},
+        {path: '/tags/auditList/:id', component: './tags/auditDetail'},
       ],
     },
     {

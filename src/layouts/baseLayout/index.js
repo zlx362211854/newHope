@@ -9,14 +9,16 @@ import { connect } from 'dva';
 const { Header, Content } = Layout;
 class BseicLayout extends Component {
   componentDidMount() {
-    const {dispatch} = this.props;
-    if (localStorage.getItem('user')) {
-      dispatch({
-        type: 'userInfo/updateUserInfo',
-        payload: {
-          user: JSON.parse(localStorage.getItem('user')),
-        }
-      });
+    const {dispatch, user} = this.props;
+    if (!user) {
+      if (localStorage.getItem('user')) {
+        dispatch({
+          type: 'userInfo/updateUserInfo',
+          payload: {
+            user: JSON.parse(localStorage.getItem('user')),
+          }
+        });
+      }
     }
   }
   render() {

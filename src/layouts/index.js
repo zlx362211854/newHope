@@ -3,7 +3,6 @@ import BaseLayout from './baseLayout/index';
 import {sideList} from './sideList';
 import router from 'umi/router';
 function BasicLayout(props) {
-  console.log(props, 'props?')
   const user = JSON.parse(localStorage.getItem('user'))
   let list = []
   if (user) {
