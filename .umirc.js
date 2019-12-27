@@ -6,6 +6,13 @@ export default {
   },
   routes: [
     {
+      path: '/my',
+      component: '../layouts/index',
+      routes: [
+        {path: '/my/dashboard', component: './my/dashboard'},
+      ]
+    },
+    {
       path: '/',
       component: '../layouts/index',
     },

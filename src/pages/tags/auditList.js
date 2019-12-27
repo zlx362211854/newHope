@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react'
-import {Table} from 'antd';
+import {Table, Drawer, message} from 'antd'
 import {process} from 'request'
-import Viewer from 'react-viewer';
-import router from 'umi/router';
+import Viewer from 'react-viewer'
+import DrawerContent from './drawerContent'
 import {aduitColumnsCreator} from './list.info'
 function AuditList() {
   const [data, setData] = useState([])
   const [fileList, setFileList] = useState([])
+  const [currentDrawer, setCurrentDrawer] = useState()
+  const [drawerVisible, setDrawerVisible] = useState(false)
   const [viewerVisible, setViewerVisible] = useState(false)
   useEffect(() => {
     getList()
@@ -16,7 +18,7 @@ function AuditList() {
       if (resp.code === 1000) {
         setData(resp.data)
       }
-     })
+    })
   }
   const handleFileClick = (files) => {
     const srcs = []
@@ -30,16 +32,52 @@ function AuditList() {
       setViewerVisible(true)
     }
   }
-  const columns = aduitColumnsCreator(handleFileClick)
+  const triggerDrawer = (record) => {
+    setDrawerVisible(!drawerVisible)
+    setCurrentDrawer(record)
+  }
+  const onDrawerOk = (value) => {
+    console.log(value, 'vvvvv')
+    setDrawerVisible(!drawerVisible)
+    process.assign({
+      params: {
+        id: currentDrawer._id,
+        target: value
+      }
+    }).then(resp => {
+      if (resp.code === 1000) {
+        message.success('操作成功!')
+      }
+    })
+  }
+  const columns = aduitColumnsCreator(handleFileClick, triggerDrawer)
   return (
     <div>
       <h1>待审核列表</h1>
       <Table columns={columns} dataSource={data} />
       <Viewer
         visible={viewerVisible}
-        onClose={() => {setViewerVisible(false);}}
+        onClose={() => {setViewerVisible(false)}}
         images={fileList}
       />
+      <Drawer
+        title="指派给"
+        placement="right"
+        closable={false}
+        onClose={() => {
+          setDrawerVisible(false)
+        }}
+        visible={drawerVisible}
+        getContainer={false}
+        style={{position: 'fixed'}}
+      >
+        {currentDrawer &&
+          <DrawerContent
+            item={currentDrawer}
+            onOk={onDrawerOk}
+          />
+        }
+      </Drawer>
     </div>
   )
 }

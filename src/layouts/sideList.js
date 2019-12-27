@@ -3,6 +3,21 @@ export const sideList = (role) => {
   const isAdmin = role === 'admin'
   return [
     {
+      name: '我的',
+      path: '/my',
+      key: '/my',
+      icon: 'user',
+      show: true,
+      children: [
+        {
+          name: '工作台',
+          path: '/my/dashboard',
+          key: '/my/dashboard',
+          show: true,
+        }
+      ],
+    },
+    {
       name: '标签',
       path: '/tags',
       key: '/tags',
@@ -22,10 +37,16 @@ export const sideList = (role) => {
           show: true,
         },
         {
-          name: '所有待审',
+          name: '所有标签',
           path: '/tags/auditList',
           key: '/tags/auditList',
           show: isAdmin || isSuperAdmin,
+          children: [
+            {
+              name: '标签详情',
+              path: '/tags/auditList/:id'
+            }
+          ]
         }
       ],
     },

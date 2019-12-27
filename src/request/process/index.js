@@ -27,9 +27,18 @@ const getAuditDetail = ({ params }) => {
     params
   });
 };
+// 指派给
+const assign = ({ params }) => {
+  return ajax({
+    url: "/api/process/assign",
+    method: "post",
+    data: params
+  });
+};
 export default {
   create,
   getOwnList,
   getAuditList,
-  getAuditDetail
+  getAuditDetail,
+  assign
 };

@@ -1,13 +1,17 @@
 import React, {useEffect, useState} from 'react'
-import {Row, Col, Steps, Icon} from 'antd'
+import {Row, Col, Steps, Icon, Badge} from 'antd'
 import styles from './process.less'
 import {process} from 'request'
 import moment from 'moment'
+import {stepsMap} from './list.info'
 const {Step} = Steps;
 function auditDetail(props) {
   const {match: {params}} = props
   const {id} = params
   const [detail, setDetail] = useState({})
+  const [hoverFileIndex, setHoverFileIndex] = useState()
+  const {creator = {}, files = [], create_time, status} = detail
+
   useEffect(() => {
     getDetail()
   }, [id])
@@ -22,7 +26,9 @@ function auditDetail(props) {
       }
     })
   }
-  const {creator = {}, files = {}, create_time} = detail
+  const renderStatus = () => {
+    return <Badge color={stepsMap[status].color} text={stepsMap[status].title} />
+  }
   return (
     <div>
       <h1>{"标签详情"}</h1>
@@ -35,30 +41,41 @@ function auditDetail(props) {
         </Row>
         <Row gutter={[0, 24]}>
           <Col span={2} className="font_color_title">{"所属组织"}：</Col>
-          <Col span={10} className="font_color_content">华西</Col>
+          <Col span={10} className="font_color_content">{creator.org && creator.org.name}</Col>
           <Col span={2} className="font_color_title">{"状态"}：</Col>
-          <Col span={10} className="font_color_content">submit</Col>
+          <Col span={10} className="font_color_content">{status && renderStatus()}</Col>
         </Row>
       </div>
-      <Steps size="small" current={1}>
-        <Step title="Finished" />
-        <Step title="In Progress" />
-        <Step title="Waiting" />
-      </Steps>
+      {status &&
+        <Steps size="small" current={stepsMap[status].index}>
+          <Step title="已提交" />
+          <Step title="已接收" />
+          <Step title="处理中" />
+          {status !== 'reject' && <Step title="已完成" />}
+          {status === 'reject' && <Step title="驳回" />}
+        </Steps>
+      }
       <div className={styles.detailBody}>
         <Row>
           <Col span={18}>
-            <h2>dsfsf但是粉丝能更快</h2>
+            <h2>{detail.title}</h2>
             <pre>
-              asdadaslmkk
+              {detail.content}
             </pre>
           </Col>
           <Col span={6}>
-            <h1>文件</h1>
-            <ul>
-              <li>fdsfsd <Icon type="download" /></li>
-              <li>gfdgwqeqw <Icon type="cloud-download" /></li>
-              <li>ghfg <Icon type="cloud-download" /></li>
+            <h1>文件 <span className="font_color_link font_size_12" style={{margin: '0 10px'}}>全部下载</span></h1>
+            <ul style={{borderLeft: '1px solid #d8d8d8', margin: '20px 0', cursor: 'pointer'}}>
+              {files.map((file, index) => {
+                return (
+                  <li key={index} onMouseOver={() => {
+                    setHoverFileIndex(index)
+                  }}>
+                    <span style={{marginRight: '10px', borderBottom: hoverFileIndex === index ? '1px solid #d8d8d8' : 'none'}}>{file.displayName}</span>
+                    {hoverFileIndex === index && <Icon className="font_color_link" type="download" />}
+                  </li>
+                )
+              })}
             </ul>
           </Col>
         </Row>

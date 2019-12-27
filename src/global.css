@@ -185,6 +185,9 @@ body {
 .font_color_link {
   color: #1890ff;
 }
+.font_size_12 {
+  font-size: 12px;
+}
 .text_align {
   text-align: center;
 }

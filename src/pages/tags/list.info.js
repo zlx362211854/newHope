@@ -1,5 +1,5 @@
 import React from 'react'
-import {Avatar, Badge} from 'antd'
+import {Avatar, Badge, Drawer} from 'antd'
 import moment from 'moment'
 import Link from 'umi/link';
 export function columnsCreator(handleFileClick) {
@@ -28,7 +28,7 @@ export function columnsCreator(handleFileClick) {
           <div>
             <h4 className="font_color_title">{record.title}</h4>
             <div className="font_color_content">
-              {text.length > 140 ? text.substring(0, 140) + '...' : text}
+              {text.length > 80 ? text.substring(0, 80) + '...' : text}
             </div>
           </div>
 
@@ -83,15 +83,15 @@ export function columnsCreator(handleFileClick) {
       render: (text, record) => (
         <span>
           <span>
-          <Link to={'/tags/list/' + text}>{"查看"}</Link>
-        </span>
+            <Link to={'/tags/list/' + text}>{"查看"}</Link>
+          </span>
         </span>
       ),
     },
   ];
 }
 
-export function aduitColumnsCreator(handleFileClick) {
+export function aduitColumnsCreator(handleFileClick, triggerDrawer) {
   return [
     {
       title: '发起人',
@@ -117,7 +117,7 @@ export function aduitColumnsCreator(handleFileClick) {
           <div>
             <h4 className="font_color_title">{record.title}</h4>
             <div className="font_color_content">
-              {text.length > 140 ? text.substring(0, 140) + '...' : text}
+              {text.length > 80 ? text.substring(0, 80) + '...' : text}
             </div>
           </div>
 
@@ -172,8 +172,16 @@ export function aduitColumnsCreator(handleFileClick) {
       render: (text, record) => (
         <span>
           <Link to={'/tags/auditList/' + text}>{"查看"}</Link>
+          <a style={{marginLeft: '10px'}} onClick={() => triggerDrawer(record)}>{"指派给"}</a>
         </span>
       ),
     },
   ];
+}
+export const stepsMap = {
+  submitted: {title: '已提交', color: 'blue', index: 0},
+  accepted: {title: '已接收', color: 'cyan', index: 1},
+  processing: {title: '处理中', color: 'orange', index: 2},
+  done: {title: '已完成', color: 'green', index: 3},
+  reject: {title: '驳回', color: 'red', index: 3}
 }
