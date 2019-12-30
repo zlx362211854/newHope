@@ -35,10 +35,26 @@ const assign = ({ params }) => {
     data: params
   });
 };
+const myList = ({ params }) => {
+  return ajax({
+    url: "/api/process/my",
+    method: "get",
+    params
+  });
+};
+const update = ({ params }) => {
+  return ajax({
+    url: "/api/process/update",
+    method: "post",
+    data: params
+  });
+};
 export default {
   create,
   getOwnList,
   getAuditList,
   getAuditDetail,
-  assign
+  assign,
+  myList,
+  update
 };

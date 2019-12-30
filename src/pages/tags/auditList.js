@@ -37,7 +37,6 @@ function AuditList() {
     setCurrentDrawer(record)
   }
   const onDrawerOk = (value) => {
-    console.log(value, 'vvvvv')
     setDrawerVisible(!drawerVisible)
     process.assign({
       params: {
@@ -47,6 +46,7 @@ function AuditList() {
     }).then(resp => {
       if (resp.code === 1000) {
         message.success('操作成功!')
+        getList()
       }
     })
   }

@@ -111,7 +111,7 @@ export function aduitColumnsCreator(handleFileClick, triggerDrawer) {
       title: '内容',
       dataIndex: 'content',
       key: 'content',
-      width: 300,
+      width: 200,
       render(text, record) {
         return (
           <div>
@@ -158,6 +158,15 @@ export function aduitColumnsCreator(handleFileClick, triggerDrawer) {
       },
     },
     {
+      title: '当前受理人',
+      width: 120,
+      dataIndex: 'conductor.name',
+      key: 'conductor.name',
+      render(text, record) {
+        return <span className="font_color_content">{text}</span>
+      },
+    },
+    {
       title: '申请时间',
       dataIndex: 'create_time',
       key: 'create_time',
@@ -168,6 +177,7 @@ export function aduitColumnsCreator(handleFileClick, triggerDrawer) {
     {
       title: '操作',
       dataIndex: '_id',
+      width: 120,
       key: '_id',
       render: (text, record) => (
         <span>

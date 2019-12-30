@@ -3,10 +3,9 @@ import {Select, Button} from 'antd'
 import {user} from 'request'
 const {Option} = Select
 function DrawerContent(props) {
-  const {item: {title, content, creator = {}}} = props
+  const {item: {title, content, creator = {}, conductor = {}}} = props
   const [users, setUsers] = useState([])
   const [value, setValue] = useState('me')
-  console.log(props, 'pppp')
   useEffect(() => {
     getUsers()
   }, [])
@@ -30,10 +29,15 @@ function DrawerContent(props) {
       <br />
       <div style={{margin: '10px 10px 10px 0'}}>
         <span className="font_color_title" style={{marginRight: '10px'}}>创建人:</span>
-        <span className="font_color_content">{creator.name}</span></div>
+        <span className="font_color_content">{creator.name}</span>
+      </div>
       <div style={{margin: '10px 10px 10px 0'}}>
         <span className="font_color_title" style={{marginRight: '10px'}}>公司或组织:</span>
         <span className="font_color_content">{creator.org && creator.org.name}</span>
+      </div>
+      <div style={{margin: '10px 10px 10px 0'}}>
+        <span className="font_color_title" style={{marginRight: '10px'}}>当前受理人:</span>
+        <span className="font_color_content">{conductor.name}</span>
       </div>
       <br />
       <span className="font_color_title" style={{marginRight: '10px'}}>选择指派人:</span>
