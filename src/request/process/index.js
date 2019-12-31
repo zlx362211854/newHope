@@ -27,6 +27,13 @@ const getAuditDetail = ({ params }) => {
     params
   });
 };
+const getAuditLogs = ({ params }) => {
+  return ajax({
+    url: "/api/process/logs",
+    method: "get",
+    params
+  });
+};
 // 指派给
 const assign = ({ params }) => {
   return ajax({
@@ -54,6 +61,7 @@ export default {
   getOwnList,
   getAuditList,
   getAuditDetail,
+  getAuditLogs,
   assign,
   myList,
   update

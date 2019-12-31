@@ -56,16 +56,7 @@ export function columnsCreator(handleFileClick) {
       key: 'status',
       render(text, record) {
         // 状态 submitted: 已提交，accepted: 已接收， processing: 处理中， done: 已完成
-        switch (text) {
-          case 'submitted':
-            return <Badge color={'blue'} text={'已提交'} />
-          case 'accepted':
-            return <Badge color={'cyan'} text={'已接收'} />
-          case 'processing':
-            return <Badge color={'orange'} text={'处理中'} />
-          case 'done':
-            return <Badge color={'green'} text={'已完成'} />
-        }
+        return <Badge color={stepsMap[text].color} text={stepsMap[text].title} status={text}/>
       },
     },
     {
@@ -145,16 +136,7 @@ export function aduitColumnsCreator(handleFileClick, triggerDrawer) {
       key: 'status',
       render(text, record) {
         // 状态 submitted: 已提交，accepted: 已接收， processing: 处理中， done: 已完成
-        switch (text) {
-          case 'submitted':
-            return <Badge color={'blue'} text={'已提交'} />
-          case 'accepted':
-            return <Badge color={'cyan'} text={'已接收'} />
-          case 'processing':
-            return <Badge color={'orange'} text={'处理中'} />
-          case 'done':
-            return <Badge color={'green'} text={'已完成'} />
-        }
+        return <Badge color={stepsMap[text].color} text={stepsMap[text].title} status={text}/>
       },
     },
     {
@@ -190,7 +172,7 @@ export function aduitColumnsCreator(handleFileClick, triggerDrawer) {
 }
 export const stepsMap = {
   submitted: {title: '已提交', color: 'blue', index: 0},
-  accepted: {title: '已接收', color: 'cyan', index: 1},
+  accepted: {title: '已受理', color: 'cyan', index: 1},
   processing: {title: '处理中', color: 'orange', index: 2},
   done: {title: '已完成', color: 'green', index: 3},
   reject: {title: '驳回', color: 'red', index: 3}

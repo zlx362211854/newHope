@@ -1,9 +1,10 @@
 import React from 'react'
-import {Icon, message} from 'antd'
+import {Icon, message, Menu, Dropdown} from 'antd'
 import styles from './card.less'
 import {useDrag} from 'react-dnd'
 import {process} from 'request'
 import {connect} from 'dva'
+import Link from 'umi/link';
 function Card(props) {
   const [{isDragging}, drag] = useDrag({
     item: {name: props._id, type: 'card', status: props.status},
@@ -33,11 +34,22 @@ function Card(props) {
     }),
   })
   const opacity = isDragging ? 0.4 : 1
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <Link to={'/tags/auditList/' + props._id}>{"更多操作"}</Link>
+      </Menu.Item>
+    </Menu>
+  );
   return (
     <div className={styles.card} ref={drag} style={{opacity}}>
       <div className={styles.head}>
         <div className={styles.title + ' font_color_title'}>{props.title}</div>
-        <div className={styles.more}><Icon type="more" /></div>
+        <div className={styles.more}>
+          <Dropdown overlay={menu}>
+            <Icon type="more" />
+          </Dropdown>
+        </div>
       </div>
       <div className={styles.content + ' font_color_content'}>
         {props.content}
@@ -61,4 +73,4 @@ export default connect(
   }),
   {
 
-})(Card)
+  })(Card)
