@@ -14,7 +14,7 @@ export function columnsCreator(handleDel, handlePass) {
       render(text, record) {
         return (
           <div>
-            <h4 className="font_color_title">{record.org.name}</h4>
+            <h4 className="font_color_title">{record.org && record.org.name}</h4>
             <div className="font_color_content">
               {record.org.description}
             </div>
